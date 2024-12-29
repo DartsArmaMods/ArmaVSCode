@@ -4,7 +4,7 @@
             "#include \"..\\script_component.hpp\"",
             "/*",
             " * Authors: You",
-            " * Function description",
+            " * A function that does something.",
             " *",
             " * Arguments:",
             " * 0: Argument <TYPE>",

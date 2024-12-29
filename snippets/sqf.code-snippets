@@ -40,7 +40,8 @@
             "    (end)",
             "",
             "Author:",
-            "    You"
+            "    You",
+            "---------------------------------------------------------------------------- */"
         ],
         "prefix": "cba_header",
         "description": "CBA's function header"

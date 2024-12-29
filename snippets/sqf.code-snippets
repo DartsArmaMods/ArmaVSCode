@@ -1,1 +1,57 @@
-{}
+{
+    "ACE Function Header": {
+        "body": [
+            "#include \"..\\script_component.hpp\"",
+            "/*",
+            " * Authors: You",
+            " * Function description",
+            " *",
+            " * Arguments:",
+            " * 0: Argument <TYPE>",
+            " * 1: Argument (optional, default: value) <TYPE>",
+            " *",
+            " * Return Value:",
+            " * Description <TYPE>",
+            " *",
+            " * Example:",
+            " * [params] call PREFIX_COMPONENT_fnc_name",
+            " */"
+        ],
+        "prefix": "ace_header",
+        "description": "ACE's function header"
+    },
+    "CBA Function Header": {
+        "body": [
+            "#include \"..\\script_component.hpp\"",
+            "/* ----------------------------------------------------------------------------",
+            "Function: PREFIX_COMPONENT_fnc_name",
+            "Description:",
+            "    A function that does something.",
+            "",
+            "Parameters:",
+            "    _param  - description <TYPE>",
+            "",
+            "Returns:",
+            "    Description <TYPE>",
+            "",
+            "Examples",
+            "    (begin example)",
+            "        [params] call PREFIX_COMPONENT_fnc_name",
+            "    (end)",
+            "",
+            "Author:",
+            "    You"
+        ],
+        "prefix": "cba_header",
+        "description": "CBA's function header"
+    },
+    "CBA Settings Event Handler": {
+        "body": [
+            "[\"CBA_settingsInitialized\", {",
+            "    systemChat \"settings initialized\";",
+            "}] call CBA_fnc_addEventHandler;"
+        ],
+        "prefix": "cba_settings_eh",
+        "description": "Event Handler for CBA settings initializing"
+    }
+}

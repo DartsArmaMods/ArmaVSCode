@@ -1,0 +1,41 @@
+{
+    "name": "arma-vscode",
+    "displayName": "Arma-VSCode",
+    "description": "",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.96.0"
+    },
+    "categories": [
+        "Snippets"
+    ],
+    "activationEvents": [],
+    "main": "./extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "arma-vscode.helloWorld",
+                "title": "Hello World"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "sqf",
+                "path": "./snippets/sqf.code-snippets"
+            }
+        ]
+    },
+    "scripts": {
+        "lint": "eslint .",
+        "pretest": "npm run lint",
+        "test": "vscode-test"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.96.0",
+        "@types/mocha": "^10.0.10",
+        "@types/node": "20.x",
+        "eslint": "^9.16.0",
+        "@vscode/test-cli": "^0.0.10",
+        "@vscode/test-electron": "^2.4.1"
+    }
+}

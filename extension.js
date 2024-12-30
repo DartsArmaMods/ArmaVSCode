@@ -5,15 +5,23 @@ const vscode = require("vscode");
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 
+const addonRegex = /addons\/(.*)/;
+
 /**
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-    const copyMacroPath = vscode.commands.registerCommand("arma-vscode.copyMacroPath", async function (editor) {
+
+    const copyMacroPath = vscode.commands.registerCommand("arma-vscode.copyMacroPath", function (editor) {
         let macroPath = editor.path;
+        const match = macroPath.match(addonRegex)[1];
+
+        let macroPathArray = match.split("/");
+        macroPathArray.shift();
+        macroPath = "QPATHTOF(" + macroPathArray.join("\\") + ")";
 
         vscode.window.showInformationMessage(`Copied ${macroPath} path to clipboard`);
-        await vscode.env.clipboard.writeText(macroPath);
+        vscode.env.clipboard.writeText(macroPath);
     });
 
     context.subscriptions.push(copyMacroPath);

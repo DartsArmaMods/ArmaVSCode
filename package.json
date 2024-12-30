@@ -14,8 +14,8 @@
     "contributes": {
         "commands": [
             {
-                "command": "arma-vscode.helloWorld",
-                "title": "Hello World"
+                "command": "arma-vscode.copyMacroPath",
+                "title": "Copy QPATHTOF Path"
             }
         ],
         "snippets": [
@@ -23,7 +23,16 @@
                 "language": "sqf",
                 "path": "./snippets/sqf.code-snippets"
             }
-        ]
+        ],
+        "menus": {
+            "explorer/context": [
+                {
+                    "command": "arma-vscode.copyMacroPath",
+                    "group": "5_cutcopypaste",
+                    "when": "resourceDirname =~ /addons/"
+                }
+            ]
+        }
     },
     "scripts": {
         "lint": "eslint .",

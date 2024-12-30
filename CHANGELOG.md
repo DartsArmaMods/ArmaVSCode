@@ -1,9 +1,5 @@
-# Change Log
+# Changelog
 
-All notable changes to the "Arma VS Code" extension will be documented in this file.
-
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
+## [Release 1.0.0]
 
 - Initial release

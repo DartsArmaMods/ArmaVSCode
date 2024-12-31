@@ -1,4 +1,4 @@
-# arma-vscode README
+# LazyArmaDev README
 
 This is a small VS Code extension for Arma development.
 

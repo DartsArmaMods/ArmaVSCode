@@ -1,8 +1,12 @@
 {
-    "name": "arma-vscode",
-    "displayName": "Arma-VSCode",
+    "name": "lazyarmadev",
+    "displayName": "LazyArmaDev",
     "description": "",
-    "version": "0.0.1",
+    "version": "1.0.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DartsArmaMods/LazyArmaDev"
+    },
     "engines": {
         "vscode": "^1.96.0"
     },
@@ -14,7 +18,7 @@
     "contributes": {
         "commands": [
             {
-                "command": "arma-vscode.copyMacroPath",
+                "command": "lazyarmadev.copyMacroPath",
                 "title": "Copy QPATHTOF Path"
             }
         ],
@@ -27,7 +31,7 @@
         "menus": {
             "explorer/context": [
                 {
-                    "command": "arma-vscode.copyMacroPath",
+                    "command": "lazyarmadev.copyMacroPath",
                     "group": "5_cutcopypaste",
                     "when": "resourceDirname =~ /addons/"
                 }

@@ -12,7 +12,7 @@ const addonRegex = /addons\/(.*)/;
  */
 function activate(context) {
 
-    const copyMacroPath = vscode.commands.registerCommand("arma-vscode.copyMacroPath", function (editor) {
+    const copyMacroPath = vscode.commands.registerCommand("lazyarmadev.copyMacroPath", function (editor) {
         let macroPath = editor.path;
         const match = macroPath.match(addonRegex)[1];
 

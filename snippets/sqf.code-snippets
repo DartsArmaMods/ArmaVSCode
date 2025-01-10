@@ -14,7 +14,7 @@
             " * Description <TYPE>",
             " *",
             " * Example:",
-            " * [params] call ${3:PREFIX_COMPONENT}_fnc_name",
+            " * [params] call ${3:PREFIX_COMPONENT}_${TM_FILENAME_BASE}",
             " */"
         ],
         "prefix": "ace_header",
@@ -24,7 +24,7 @@
         "body": [
             "#include \"..\\script_component.hpp\"",
             "/* ----------------------------------------------------------------------------",
-            "Function: ${1:PREFIX_COMPONENT}_fnc_name",
+            "Function: ${1:PREFIX_COMPONENT}_fnc_${TM_FILENAME_BASE}",
             "Description:",
             "    ${2:Description}.",
             "",
@@ -36,7 +36,7 @@
             "",
             "Examples",
             "    (begin example)",
-            "        [params] call $1_fnc_name",
+            "        [params] call $1_${TM_FILENAME_BASE}",
             "    (end)",
             "",
             "Author:",

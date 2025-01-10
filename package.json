@@ -26,6 +26,14 @@
             {
                 "language": "sqf",
                 "path": "./snippets/sqf.code-snippets"
+            },
+            {
+                "language": "arma-config",
+                "path": "./snippets/arma-config.code-snippets"
+            },
+            {
+                "language": "cpp",
+                "path": "./snippets/cpp.code-snippets"
             }
         ],
         "menus": {

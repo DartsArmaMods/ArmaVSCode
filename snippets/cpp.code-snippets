@@ -1,0 +1,47 @@
+{
+    "CfgPatches Addon": {
+        "body": [
+            "#include \"script_component.hpp\"",
+            "",
+            "class CfgPatches {",
+            "    class ADDON {",
+            "        author = AUTHOR;",
+            "        authors[] = {\"${1:You}\"};",
+            "        name = COMPONENT_NAME;",
+            "        requiredVersion = REQUIRED_VERSION;",
+            "        requiredAddons[] = {\"${2:PREFIX}_main\"};",
+            "        units[] = {};",
+            "        weapons[] = {};",
+            "        VERSION_CONFIG;",
+            "",
+            "        skipWhenMissingDependencies = 0;",
+            "    };",
+            "};"
+        ],
+        "prefix": "cfgpatches",
+        "description": "CfgPatches for an Addon"
+    },
+    "CfgPatches Subaddon": {
+        "body": [
+            "#include \"..\\script_component.hpp\"",
+            "",
+            "class CfgPatches {",
+            "    class SUBADDON {",
+            "        author = AUTHOR;",
+            "        authors[] = {\"${1:You}\"};",
+            "        name = COMPONENT_NAME;",
+            "        addonRootClass = QUOTE(ADDON);",
+            "        requiredVersion = REQUIRED_VERSION;",
+            "        requiredAddons[] = {QUOTE(ADDON)};",
+            "        units[] = {};",
+            "        weapons[] = {};",
+            "        VERSION_CONFIG;",
+            "",
+            "        skipWhenMissingDependencies = 0;",
+            "    };",
+            "};"
+        ],
+        "prefix": "cfgpatches_subaddon",
+        "description": "CfgPatches for a Subaddon"
+    },
+}

@@ -1,6 +1,15 @@
+<h1 align="center">LazyArmaDev</h1>
+<p align="center">
+    <img src="https://img.shields.io/badge/Version-1.2.2-blue?style=flat-square" alt="LazyArmaDev Version">
+    <a href="https://marketplace.visualstudio.com/items?itemName=DartRuffian.lazyarmadev">
+        <img src="https://img.shields.io/visual-studio-marketplace/d/DartRuffian.LazyArmaDev?style=flat-square&label=Downloads" alt="LazyArmaDev Downloads">
+    </a>
+</p>
+
 # LazyArmaDev README
 
 This is a small VS Code extension for Arma development.
+[Install for VS Code](https://marketplace.visualstudio.com/items?itemName=DartRuffian.lazyarmadev).
 
 ## Features
 

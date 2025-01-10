@@ -17,6 +17,11 @@ There are a small collection of snippets to make Arma development easier.
 2. CBA function header
 3. `CBA_settingsInitialized` event handler
 
+#### Config
+These snippets are avaiable for both the C++ language and [HEMTT](https://marketplace.visualstudio.com/items?itemName=BrettMayson.hemtt)'s "Arma Config" language.
+1. CfgPatches
+2. CfgPatches (Subaddon)
+
 #### Requirements:
 1. The file/folder is in a folder named `addons`
 

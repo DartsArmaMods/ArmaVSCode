@@ -25,7 +25,7 @@ jobs:
         id: calculateVersion
         run: |
           APP_VERSION=`cat package.json | jq ".version" -M | sed 's/\"//g'`
-          echo "AppVersion=$APP_VERSION" >> $GITHUB_STATE
+          echo "AppVersion=$APP_VERSION" >> $GITHUB_OUTPUT
           echo "app version = v$APP_VERSION"
 
       - name: Build VSIX package

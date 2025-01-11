@@ -1,7 +1,8 @@
 <h1 align="center">LazyArmaDev</h1>
 <p align="center">
-    <img src="https://img.shields.io/badge/Version-1.2.2-blue?style=flat-square" alt="LazyArmaDev Version">
+    <img src="https://img.shields.io/visual-studio-marketplace/v/DartRuffian.LazyArmaDev?style=flat-square&label=Version" alt="LazyArmaDev Version">
     <a href="https://marketplace.visualstudio.com/items?itemName=DartRuffian.lazyarmadev">
+        <img src="https://img.shields.io/visual-studio-marketplace/stars/DartRuffian.LazyArmaDev?style=flat-square&label=Rating" alt="LazyArmaDev Rating">
         <img src="https://img.shields.io/visual-studio-marketplace/d/DartRuffian.LazyArmaDev?style=flat-square&label=Downloads" alt="LazyArmaDev Downloads">
     </a>
 </p>

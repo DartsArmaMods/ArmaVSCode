@@ -1,0 +1,42 @@
+name: "Publish to VS Marketplace"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to branch
+        uses: actions/checkout@v2
+
+      - name: Setup node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 20
+
+      - name: Install packages
+        run: npm ci
+
+      - name: Calculate version
+        id: calculateVersion
+        run: |
+          APP_VERSION=`cat package.json | jq ".version" -M | sed 's/\"//g'`
+          echo "::set-output name=AppVersion::$APP_VERSION"
+          echo "app version = v$APP_VERSION"
+      - name: Build VSIX package
+        run: npm run build -- -o custom-profiles-for-vscode.v${{ steps.calculateVersion.outputs.AppVersion }}.vsix
+
+      - name: Publish extension package
+        env:
+          VSCODE_MARKETPLACE_TOKEN: ${{ secrets.VS_MARKETPLACE_TOKEN }}
+        run: npm run vsce -- publish -p $VS_MARKETPLACE_TOKEN
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: customlazyarmadev-v${{ steps.calculateVersion.outputs.AppVersion }}.vsix
+          path: customlazyarmadev-v${{ steps.calculateVersion.outputs.AppVersion }}.vsix

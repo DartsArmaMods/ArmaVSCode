@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  cd:
+  publish:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,7 +25,7 @@ jobs:
         id: calculateVersion
         run: |
           APP_VERSION=`cat package.json | jq ".version" -M | sed 's/\"//g'`
-          echo "::set-output name=AppVersion::$APP_VERSION"
+          echo "AppVersion=$APP_VERSION" >> $GITHUB_STATE
           echo "app version = v$APP_VERSION"
       - name: Build VSIX package
         run: npm run build -- -o custom-profiles-for-vscode.v${{ steps.calculateVersion.outputs.AppVersion }}.vsix

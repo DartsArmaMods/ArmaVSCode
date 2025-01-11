@@ -28,7 +28,7 @@ jobs:
           echo "AppVersion=$APP_VERSION" >> $GITHUB_STATE
           echo "app version = v$APP_VERSION"
       - name: Build VSIX package
-        run: npm run build -- -o custom-profiles-for-vscode.v${{ steps.calculateVersion.outputs.AppVersion }}.vsix
+        run: npm run build -- -o lazyarmadev-${{ steps.calculateVersion.outputs.AppVersion }}.vsix
 
       - name: Publish extension package
         env:
@@ -38,5 +38,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: customlazyarmadev-v${{ steps.calculateVersion.outputs.AppVersion }}.vsix
-          path: customlazyarmadev-v${{ steps.calculateVersion.outputs.AppVersion }}.vsix
+          name: lazyarmadev-${{ steps.calculateVersion.outputs.AppVersion }}.vsix
+          path: lazyarmadev-${{ steps.calculateVersion.outputs.AppVersion }}.vsix

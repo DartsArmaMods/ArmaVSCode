@@ -7,10 +7,8 @@
     </a>
 </p>
 
-# LazyArmaDev README
 
-This is a small VS Code extension for Arma development.
-[Install for VS Code](https://marketplace.visualstudio.com/items?itemName=DartRuffian.lazyarmadev).
+This is a small VS Code extension for Arma development. [View on the Marketplace](https://marketplace.visualstudio.com/items?itemName=DartRuffian.lazyarmadev).
 
 ## Features
 

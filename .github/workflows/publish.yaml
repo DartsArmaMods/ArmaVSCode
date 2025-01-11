@@ -31,5 +31,18 @@ jobs:
       - name: Build VSIX package
         run: npm run build -- -o lazyarmadev-${{ steps.calculateVersion.outputs.AppVersion }}.vsix
 
-      - name: Publish extension package
-        run: npm run vsce -- publish -p ${{ secrets.VS_MARKETPLACE_TOKEN }}
+    #   - name: Publish extension package
+    #     run: npm run vsce -- publish -p ${{ secrets.VS_MARKETPLACE_TOKEN }}
+
+      - name: Create tag
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: v${{ steps.calculateVersion.outputs.AppVersion }}
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: v${{ steps.calculateVersion.outputs.AppVersion }}
+          artifacts: lazyarmadev-${{ steps.calculateVersion.outputs.AppVersion }}.vsix
+          generateReleaseNotes: true

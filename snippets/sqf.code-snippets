@@ -24,7 +24,7 @@
         "body": [
             "#include \"..\\script_component.hpp\"",
             "/* ----------------------------------------------------------------------------",
-            "Function: ${1:PREFIX_COMPONENT}_fnc_${TM_FILENAME_BASE}",
+            "Function: ${1:PREFIX_COMPONENT}_${TM_FILENAME_BASE}",
             "Description:",
             "    ${2:Description}.",
             "",

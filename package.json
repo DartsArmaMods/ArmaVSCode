@@ -21,6 +21,10 @@
             {
                 "command": "lazyarmadev.copyMacroPath",
                 "title": "Copy QPATHTOF Path"
+            },
+            {
+                "command": "lazyarmadev.generatePrepFile",
+                "title": "Generate XEH_PREP.hpp"
             }
         ],
         "snippets": [
@@ -43,6 +47,11 @@
                     "command": "lazyarmadev.copyMacroPath",
                     "group": "5_cutcopypaste",
                     "when": "resourceDirname =~ /addons/"
+                },
+                {
+                    "command": "lazyarmadev.generatePrepFile",
+                    "group": "5_cutcopypaste",
+                    "when": "resourcePath =~ /functions$/"
                 }
             ]
         }

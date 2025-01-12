@@ -1,9 +1,19 @@
 // The module "vscode" contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require("vscode");
+const fs = require("fs");
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+/**
+ * @param {String} level
+ * @param {String} message
+ */
+function logMessage(level, message) {
+    level = level.toUpperCase();
+    const length = level.length;
+
+    level = " ".repeat(5 - length) + level;
+    console.log(`[LazyArmaDev] ${level}: ${message}`);
+}
 
 const addonRegex = /addons\/(.*)/;
 
@@ -16,18 +26,62 @@ function activate(context) {
         let macroPath = editor.path;
         const match = macroPath.match(addonRegex)[1];
 
+        logMessage("TRACE", `macroPath=${macroPath}, match=${match}`);
         let macroPathArray = match.split("/");
         macroPathArray.shift();
         macroPath = "QPATHTOF(" + macroPathArray.join("\\") + ")";
 
+        logMessage("LOG", `Copied path to clipboard: ${macroPath}`);
         vscode.window.showInformationMessage(`Copied ${macroPath} path to clipboard`);
         vscode.env.clipboard.writeText(macroPath);
     });
 
     context.subscriptions.push(copyMacroPath);
+
+    const generatePrepFile = vscode.commands.registerCommand("lazyarmadev.generatePrepFile", function (editor) {
+        logMessage("TRACE", `editor.path=${editor.path}`);
+        let functionsFolderArray = editor.path.split("/"); // VS Code returns path as "/<drive>/path/..."
+        functionsFolderArray.shift(); // Remove leading "/"
+        functionsFolderArray.shift(); // Remove "<drive>:/"
+        const functionsFolder = "/" + functionsFolderArray.join("/");
+
+        logMessage("LOG", `Generating PREP file for "${functionsFolder}"`);
+        let files = fs.readdirSync(functionsFolder);
+
+        // Only PREP sqf files
+        files = files.filter(function (file) {
+            const extensionArray = file.split(".");
+            const extension = extensionArray[extensionArray.length - 1];
+            return extension.toLowerCase() == "sqf";
+        });
+
+        // Convert fnc_name.sqf -> PREP(name);
+        files.forEach(function (file, index) {
+            let functionName = (file.split(".")[0]).split("_")[1];
+            this[index] = `PREP(${functionName});`;
+        }, files);
+
+        // Filter out files that didn't match
+        files = files.filter(file => file !== "PREP(undefined);");
+        const content = files.join("\n");
+
+        logMessage("TRACE", `content=${content}`);
+        files.sort();
+
+        functionsFolderArray.pop(); // Remove "functions", XEH_PREP should be in addon root
+        const prepFileDir = "/" + functionsFolderArray.join("/") + "/XEH_PREP.hpp"
+        fs.writeFile(prepFileDir, content, err => {
+            if (err) {
+                vscode.window.showErrorMessage(`Failed to create file at ${prepFileDir}`);
+            } else {
+                vscode.window.showInformationMessage(`Generated XEH_PREP.hpp file for ${files.length} functions`);
+            }
+        });
+    });
+
+    context.subscriptions.push(generatePrepFile);
 }
 
-// This method is called when your extension is deactivated
 function deactivate() {}
 
 module.exports = {

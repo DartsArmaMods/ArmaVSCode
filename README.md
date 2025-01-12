@@ -12,23 +12,8 @@ This is a small VS Code extension for Arma development. [View on the Marketplace
 
 ## Features
 
-### "Copy QPATHTOF Path"
-A file context menu option that will copy the macro'd path to a given file.
-
-E.g. selecting a file located at `addons/someAddonName/data/camo1_co.paa` will copy `QPATHTOF(data\camo1_co.paa)` to your clipboard.
-
-#### Requirements:
-1. The file/folder is in a folder named `addons`
+### Context Actions
+Context actions help simplify some annoying tasks, such as getting the path to a given file or compiling functions. See [Context Actions](https://github.com/DartsArmaMods/LazyArmaDev/wiki/Context-Actions) for a more in-depth explanation.
 
 ### Snippets
-There are a small collection of snippets to make Arma development easier.
-
-#### SQF
-1. ACE function header
-2. CBA function header
-3. `CBA_settingsInitialized` event handler
-
-#### Config
-These snippets are avaiable for both the C++ language and [HEMTT](https://marketplace.visualstudio.com/items?itemName=BrettMayson.hemtt)'s "Arma Config" language.
-1. CfgPatches
-2. CfgPatches (Subaddon)
+Snippets exist for making tedious or hard to remember code easier to write. There are snippets for both config and SQF, see [Snippets](https://github.com/DartsArmaMods/LazyArmaDev/wiki/Snippets) for a more in-depth explanation.

@@ -7,6 +7,7 @@
             "    class ADDON {",
             "        author = AUTHOR;",
             "        authors[] = {\"${1:You}\"};",
+            "        url = ECSTRING(main,url);",
             "        name = COMPONENT_NAME;",
             "        requiredVersion = REQUIRED_VERSION;",
             "        requiredAddons[] = {\"${2:PREFIX}_main\"};",

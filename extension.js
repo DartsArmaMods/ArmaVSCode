@@ -1,5 +1,3 @@
-// The module "vscode" contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 const vscode = require("vscode");
 const fs = require("fs");
 
@@ -17,26 +15,36 @@ function logMessage(level, message) {
 
 const addonRegex = /addons\/(.*)/;
 
+function copyPath(macroPath, useExternal = false) {
+    const match = macroPath.match(addonRegex)[1];
+    logMessage("TRACE", `macroPath=${macroPath}, match=${match}`);
+    let macroPathArray = match.split("/");
+    const componentName = macroPathArray.shift();
+
+    if (useExternal) {
+        macroPath = `QPATHTOEF(${componentName},${macroPathArray.join("\\")})`;
+    } else {
+        macroPath = `QPATHTOF(${macroPathArray.join("\\")})`;
+    };
+
+    logMessage("LOG", `Copied path to clipboard: ${macroPath}`);
+    vscode.window.showInformationMessage(`Copied ${macroPath} path to clipboard`);
+    vscode.env.clipboard.writeText(macroPath);
+}
+
 /**
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-
     const copyMacroPath = vscode.commands.registerCommand("lazyarmadev.copyMacroPath", function (editor) {
-        let macroPath = editor.path;
-        const match = macroPath.match(addonRegex)[1];
-
-        logMessage("TRACE", `macroPath=${macroPath}, match=${match}`);
-        let macroPathArray = match.split("/");
-        macroPathArray.shift();
-        macroPath = "QPATHTOF(" + macroPathArray.join("\\") + ")";
-
-        logMessage("LOG", `Copied path to clipboard: ${macroPath}`);
-        vscode.window.showInformationMessage(`Copied ${macroPath} path to clipboard`);
-        vscode.env.clipboard.writeText(macroPath);
+        copyPath(editor.path);
     });
-
     context.subscriptions.push(copyMacroPath);
+
+    const copyExternalMacroPath = vscode.commands.registerCommand("lazyarmadev.copyExternalMacroPath", function (editor) {
+        copyPath(editor.path, true);
+    });
+    context.subscriptions.push(copyExternalMacroPath);
 
     const generatePrepFile = vscode.commands.registerCommand("lazyarmadev.generatePrepFile", function (editor) {
         logMessage("TRACE", `editor.path=${editor.path}`);
@@ -79,7 +87,6 @@ function activate(context) {
             }
         });
     });
-
     context.subscriptions.push(generatePrepFile);
 }
 

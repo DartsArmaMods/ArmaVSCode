@@ -23,6 +23,10 @@
                 "title": "Copy QPATHTOF Path"
             },
             {
+                "command": "lazyarmadev.copyExternalMacroPath",
+                "title": "Copy QPATHTOEF Path"
+            },
+            {
                 "command": "lazyarmadev.generatePrepFile",
                 "title": "Generate XEH_PREP.hpp"
             }
@@ -45,7 +49,12 @@
             "explorer/context": [
                 {
                     "command": "lazyarmadev.copyMacroPath",
-                    "group": "5_cutcopypaste",
+                    "group": "5_cutcopypaste@1",
+                    "when": "resourceDirname =~ /addons/"
+                },
+                {
+                    "command": "lazyarmadev.copyExternalMacroPath",
+                    "group": "5_cutcopypaste@2",
                     "when": "resourceDirname =~ /addons/"
                 },
                 {

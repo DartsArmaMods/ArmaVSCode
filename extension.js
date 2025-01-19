@@ -55,9 +55,10 @@ function activate(context) {
             return extension.toLowerCase() == "sqf";
         });
 
-        // Convert fnc_name.sqf -> PREP(name);
+        // Convert fnc_function_name.sqf -> PREP(function_name);
         files.forEach(function (file, index) {
-            let functionName = (file.split(".")[0]).split("_")[1];
+            let functionName = file.split(".")[0]; // Remove extension
+            functionName = (functionName.split("_").splice(1)).join("_"); // Remove fn_ / fnc_ prefix
             this[index] = `PREP(${functionName});`;
         }, files);
 

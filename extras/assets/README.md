@@ -1,0 +1,1 @@
+Use https://www.freeconvert.com/convert/mp4-to-gif to convert the .mp4 video to a gif at 960 pixels for the width.

@@ -15,7 +15,7 @@
             " *",
             " * Example:",
             " * [params] call ${3:PREFIX_COMPONENT}_${TM_FILENAME_BASE}",
-            "",
+            " *",
             " * Public: Yes/No",
             " */"
         ],

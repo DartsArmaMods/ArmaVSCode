@@ -15,7 +15,7 @@
             "        weapons[] = {};",
             "        VERSION_CONFIG;",
             "",
-            "        ${3| ,skipWhenMissingDependencies = 1|};",
+            "        ${3| ,skipWhenMissingDependencies = 1;|}",
             "    };",
             "};"
         ],

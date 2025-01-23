@@ -1,0 +1,27 @@
+name: Validate
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout the source code
+      uses: actions/checkout@v4
+
+    - name: Setup node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 20
+
+    - name: Install packages
+      run: npm ci
+
+    - name: Build VSIX
+      run: npm run vsce -- build

@@ -1,4 +1,5 @@
 {
+    // Some of these features like the drop down menus were brought to my attention by https://github.com/Timi007, thanks!
     "ACE Function Header": {
         "body": [
             "#include \"..\\script_component.hpp\"",

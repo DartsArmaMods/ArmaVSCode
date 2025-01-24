@@ -11,7 +11,7 @@
             " * 0: ${3:Argument} (optional, default: value) <${4|OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}>",
             " *",
             " * Return Value:",
-            " * ${5:Return description} <${6|OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}>",
+            " * ${5:Return description} <${6|NONE,OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}>",
             " *",
             " * Example:",
             " * ${7:[params]} call ${8:PREFIX}_${TM_DIRECTORY/(.*)addons\\\\(.*)\\\\functions(.*)/$2/}_${TM_FILENAME_BASE}",
@@ -37,7 +37,7 @@
             "    ${3:_param}  - ${4:Parameter description} <${5|OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}>",
             "",
             "Returns:",
-            "    ${6:Return description} <${7|OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}>",
+            "    ${6:Return description} <${7|NONE,OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}>",
             "",
             "Examples",
             "    (begin example)",
@@ -65,7 +65,7 @@
     },
     "SQF Data Type": {
         "body": [
-            "${1|OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}"
+            "${1|NONE,OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}"
         ],
         "prefix": "data_type",
         "description": "A list of data types in SQF"

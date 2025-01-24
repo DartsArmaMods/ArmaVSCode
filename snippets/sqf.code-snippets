@@ -1,4 +1,5 @@
 {
+    // Some of these features like the drop down menus were brought to my attention by https://github.com/Timi007, thanks!
     "ACE Function Header": {
         "body": [
             "#include \"..\\script_component.hpp\"",
@@ -7,17 +8,19 @@
             " * ${2:Description}.",
             " *",
             " * Arguments:",
-            " * 0: Argument <TYPE>",
-            " * 1: Argument (optional, default: value) <TYPE>",
+            " * 0: ${3:Argument} (optional, default: value) <${4|OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}>",
             " *",
             " * Return Value:",
-            " * Description <TYPE>",
+            " * ${5:Return description} <${6|NONE,OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}>",
             " *",
             " * Example:",
-            " * [params] call ${3:PREFIX_COMPONENT}_${TM_FILENAME_BASE}",
+            " * ${7:[params]} call ${8:PREFIX}_${TM_DIRECTORY/(.*)addons\\\\(.*)\\\\functions(.*)/$2/}_${TM_FILENAME_BASE}",
             " *",
-            " * Public: Yes/No",
-            " */"
+            " * Public: ${9|No,Yes|}",
+            " */",
+            "",
+            "params [];",
+            "TRACE_1(\"${TM_FILENAME_BASE}\",_this);"
         ],
         "prefix": "ace_header",
         "description": "ACE's function header"
@@ -26,24 +29,27 @@
         "body": [
             "#include \"..\\script_component.hpp\"",
             "/* ----------------------------------------------------------------------------",
-            "Function: ${1:PREFIX_COMPONENT}_${TM_FILENAME_BASE}",
+            "Function: ${1:PREFIX}_${TM_DIRECTORY/(.*)addons\\\\(.*)\\\\functions(.*)/$2/}_${TM_FILENAME_BASE}",
             "Description:",
             "    ${2:Description}.",
             "",
             "Parameters:",
-            "    _param  - description <TYPE>",
+            "    ${3:_param}  - ${4:Parameter description} <${5|OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}>",
             "",
             "Returns:",
-            "    Description <TYPE>",
+            "    ${6:Return description} <${7|NONE,OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}>",
             "",
             "Examples",
             "    (begin example)",
-            "        [params] call $1_${TM_FILENAME_BASE}",
+            "        ${8:[params]} call $1_${TM_DIRECTORY/(.*)addons\\\\(.*)\\\\functions(.*)/$2/}_${TM_FILENAME_BASE}",
             "    (end)",
             "",
             "Author:",
-            "    ${3:You}",
-            "---------------------------------------------------------------------------- */"
+            "    ${9:You}",
+            "---------------------------------------------------------------------------- */",
+            "",
+            "params [];",
+            "TRACE_1(\"${TM_FILENAME_BASE}\",_this);"
         ],
         "prefix": "cba_header",
         "description": "CBA's function header"
@@ -56,5 +62,12 @@
         ],
         "prefix": "cba_settings_eh",
         "description": "Event Handler for CBA settings initializing"
+    },
+    "SQF Data Type": {
+        "body": [
+            "${1|NONE,OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}"
+        ],
+        "prefix": "data_type",
+        "description": "A list of data types in SQF"
     }
 }

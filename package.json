@@ -50,17 +50,17 @@
                 {
                     "command": "lazyarmadev.copyMacroPath",
                     "group": "5_cutcopypaste@1",
-                    "when": "resourceDirname =~ /addons/"
+                    "when": "resourceDirname =~ /addons/i"
                 },
                 {
                     "command": "lazyarmadev.copyExternalMacroPath",
                     "group": "5_cutcopypaste@2",
-                    "when": "resourceDirname =~ /addons/"
+                    "when": "resourceDirname =~ /addons/i"
                 },
                 {
                     "command": "lazyarmadev.generatePrepFile",
                     "group": "5_cutcopypaste",
-                    "when": "resourcePath =~ /functions$/"
+                    "when": "resourcePath =~ /functions$/i"
                 }
             ]
         }

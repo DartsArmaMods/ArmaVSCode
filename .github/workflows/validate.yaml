@@ -1,0 +1,24 @@
+name: Validate
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout the source code
+      uses: actions/checkout@v4
+
+    - name: Check style
+      run: python tools/check_style.py
+
+    - name: Check for BOM
+      uses: arma-actions/bom-check@master
+      with:
+        path: "addons"

@@ -14,13 +14,15 @@
             " * ${5:Return description} <${6|NONE,OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}>",
             " *",
             " * Example:",
-            " * ${7:[params]} call ${8:PREFIX}_${TM_DIRECTORY/(.*)addons\\\\(.*)\\\\functions(.*)/$2/}_${TM_FILENAME_BASE}",
+            " * ${7:[params]} call ${8:PREFIX}_${TM_DIRECTORY/(.*)addons\\\\(.*)\\\\functions(.*)/$2/i}_${TM_FILENAME_BASE}",
             " *",
             " * Public: ${9|No,Yes|}",
             " */",
             "",
             "params [];",
-            "TRACE_1(\"${TM_FILENAME_BASE}\",_this);"
+            "TRACE_1(\"${TM_FILENAME_BASE}\",_this);",
+            "",
+            "$0"
         ],
         "prefix": "ace_header",
         "description": "ACE's function header"
@@ -29,7 +31,7 @@
         "body": [
             "#include \"..\\script_component.hpp\"",
             "/* ----------------------------------------------------------------------------",
-            "Function: ${1:PREFIX}_${TM_DIRECTORY/(.*)addons\\\\(.*)\\\\functions(.*)/$2/}_${TM_FILENAME_BASE}",
+            "Function: ${1:PREFIX}_${TM_DIRECTORY/(.*)addons\\\\(.*)\\\\functions(.*)/$2/i}_${TM_FILENAME_BASE}",
             "Description:",
             "    ${2:Description}.",
             "",
@@ -41,7 +43,7 @@
             "",
             "Examples",
             "    (begin example)",
-            "        ${8:[params]} call $1_${TM_DIRECTORY/(.*)addons\\\\(.*)\\\\functions(.*)/$2/}_${TM_FILENAME_BASE}",
+            "        ${8:[params]} call $1_${TM_DIRECTORY/(.*)addons\\\\(.*)\\\\functions(.*)/$2/i}_${TM_FILENAME_BASE}",
             "    (end)",
             "",
             "Author:",
@@ -49,7 +51,9 @@
             "---------------------------------------------------------------------------- */",
             "",
             "params [];",
-            "TRACE_1(\"${TM_FILENAME_BASE}\",_this);"
+            "TRACE_1(\"${TM_FILENAME_BASE}\",_this);",
+            "",
+            "$0"
         ],
         "prefix": "cba_header",
         "description": "CBA's function header"
@@ -57,7 +61,7 @@
     "CBA Settings Event Handler": {
         "body": [
             "[\"CBA_settingsInitialized\", {",
-            "    systemChat \"settings initialized\";",
+            "    $0",
             "}] call CBA_fnc_addEventHandler;"
         ],
         "prefix": "cba_settings_eh",

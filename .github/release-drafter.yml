@@ -35,5 +35,5 @@ template: |
 
 replacers:
   # Category titles
-  - search: "/\#\# (\*\*(ADDED|FIXED|IMPROVED|CHANGED):\*\*)/g"
+  - search: '/\#\# (\*\*(ADDED|FIXED|IMPROVED|CHANGED):\*\*)/g'
     replace: "$1"

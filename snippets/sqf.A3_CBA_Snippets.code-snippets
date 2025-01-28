@@ -1,0 +1,211 @@
+{
+	// Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+
+
+	"CBA_waitAndExecute_short": {
+		"prefix": ["CBA_waitAndExecute_oneLiner", "WAE_oneLiner"],
+		"body": [
+		"[ { ${1:_this#0;} } , [${2:Parameters}], ${3:timeToWaitinSecounds}] call CBA_fnc_waitAndExecute;"
+		],
+		"description": "CBA_waitAndExecute as a one liner"
+	},
+
+
+
+	"CBA_waitAndExecute": {
+		"prefix": ["CBA_waitAndExecute", "WAE"],
+		"body": [
+		"_code = {",
+		"    ${1:_this#0;}",
+		"};",
+		"",
+		"[_code, [${2:Parameters}], ${3:timeToWaitinSecounds}] call CBA_fnc_waitAndExecute;"
+		],
+		"description": "CBA_waitAndExecute"
+	},
+
+	"cba_fnc_WaitUntilAndExecute": {
+		"prefix": ["cbaWaitUntil", "CBA_FNC_WaitUntilAndExecute"],
+		"body": [
+			"_condition = {};                // condition - Needs to return bool",
+			"_statement = {};                // Code to be executed once condition true",
+			"_parameter = [];                // arguments to be passed on -> _this",
+			"_timeout = -1;                  // if condition isnt true within this time in S, _timecode will be executed.",
+			"_timeoutCode = {};              // code to be executed if timeout",
+
+			"[_condition, _statement, _parameter, _timeout,_timeoutCode] call CBA_fnc_waitUntilAndExecute;"
+		],
+		"description": "cba_fnc_WaitUntilAndExecute"
+	},
+
+	"CBA_pfEH" : {
+		"prefix": ["CBA_pfEH", "pfeh","CBA_perFrameEventHandler"],
+		"body": [
+			"/*",
+			"_codeToRun  - <CODE> code to Run stated between {}",
+			"_parameters - <ANY> OPTIONAL parameters, will be passed to  code to run, exit code and condition",
+			"_exitCode   - <CODE> OPTIONAL exit code between {} code that will be executed upon ending PFEH default is {}",
+			"_condition  - <CODE THAT RETURNS BOOLEAN> - OPTIONAL conditions during which PFEH will run default {true}",
+			"_delay      - <NUMBER> (optional) delay between each execution in seconds, PFEH executes at most once per frame",
+			"*/",
+			"",
+			"private _codeToRun = { ${1: /*_statement */ } };",
+			"private _parameters = [ ${2: /*parameters*/ } ];",
+			"private _exitCode = { ${3:/* exit code */} };",
+			"private _condition = { ${4:/*condition (false will lead to exit}*/ };",
+			"private _delay = 2;",
+			"",
+			"[{",
+			"    params [\"_args\", \"_handle\"];",
+			"    _args params [\"_codeToRun\", \"_parameters\", \"_exitCode\", \"_condition\"];",
+			"",
+			"    if (_parameters call _condition) then {",
+			"        _parameters call _codeToRun;",
+			"    } else {",
+			"        _handle call CBA_fnc_removePerFrameHandler;",
+			"        _parameters call _exitCode;",
+			"    };",
+			"}, _delay, [_codeToRun, _parameters, _exitCode, _condition]] call CBA_fnc_addPerFrameHandler;"
+		],
+		"description": "creates a quick perFrameEventHandler Template with condition check and self-destruction upon a failed condition check"
+	},
+
+
+
+
+	"CBA_pfEH_time" : {
+		"prefix": ["CBA_pfEH_timeBased", "pfeh_time","CBA_perFrameEventHandler_based_onTime"],
+		"body": [
+			"/*",
+			"_codeToRun  - <CODE> code to Run stated between {}",
+			"_parameters - <ANY> OPTIONAL parameters, will be passed to  code to run, exit code and condition",
+			"_exitCode   - <CODE> OPTIONAL exit code between {} code that will be executed upon ending PFEH default is {}",
+			"_condition  - <CODE THAT RETURNS BOOLEAN> - OPTIONAL conditions during which PFEH will run default {true}",
+			"_delay      - <NUMBER> (optional) delay between each execution in seconds, PFEH executes at most once per frame",
+			"*/",
+			"",
+			"private _startTime = CBA_missionTime;",
+			"private _endTime = CBA_missionTime + _duration;",
+			"private _parameters = [_startTime, _endTime];",
+			"private _condition = { _this#1 > CBA_missionTime };",
+			"",
+			"private _codeToRun = {  /*_statement */  };",
+			"private _exitCode = { /* exit code */ };",
+			"private _delay = 2;",
+			"",
+			"[{",
+			"    params [\"_args\", \"_handle\"];",
+			"    _args params [\"_codeToRun\", \"_parameters\", \"_exitCode\", \"_condition\"];",
+			"",
+			"    if (_parameters call _condition) then {",
+			"        _parameters call _codeToRun;",
+			"    } else {",
+			"        _handle call CBA_fnc_removePerFrameHandler;",
+			"        _parameters call _exitCode;",
+			"    };",
+			"}, _delay, [_codeToRun, _parameters, _exitCode, _condition]] call CBA_fnc_addPerFrameHandler;"
+		],
+		"description": "creates a quick perFrameEventHandler Template with condition check and self-destruction upon a failed condition check"
+	},
+
+	"cba_nextFrame" : {
+		"prefix": ["cba_nextFrame", "execNextFrame"],
+		"description": "template for cba_fnc_execNextFrame",
+		"body": [
+		"_statement = {};",
+		"_parameters = [];",
+		"[_statement, _parameters] call CBA_fnc_execNextFrame;"
+		]
+	},
+
+//// CBA Custom Events
+//
+// Register an event
+	"cba_event_register" : {
+		"prefix": ["cba_event_register", "cba_addEventHandler"],
+		"description": "template for the code to register an event",
+		"body": [
+            "GVAR(EH_ID_${1:name}) = [QGVAR(EH_${1:name}), {${2:/*code*/}}] call CBA_fnc_addEventHandler;"
+		]
+	},
+	"cba_event_register_func" : {
+		"prefix": ["cba_event_register", "cba_addEventHandler"],
+		"description": "template for the code to register an event",
+		"body": [
+            "GVAR(EH_ID_${1:name}) = [QGVAR(EH_${1:name}), FUNC(${1:name})] call CBA_fnc_addEventHandler;"
+		]
+	},
+
+// Raise/call an event
+	"cba_event_raise_local" : {
+		"prefix": ["raise_local","raise_local_Event"],
+		"description": "template for raising a cba custom Event",
+		"body": [
+            "[QGVAR(EH_${1:name}), _params] call CBA_fnc_localEvent;"
+		]
+	},
+	"cba_event_raise_server" : {
+		"prefix": ["raise_server","raise_server_Event"],
+		"description": "template for raising a cba custom Event",
+		"body": [
+            "[QGVAR(EH_${1:name}), _params] call CBA_fnc_serverEvent;"
+		]
+	},
+	"cba_event_raise_remote" : {
+		"prefix": ["raise_remote","raise_remote_Event"],
+		"description": "template for raising a cba custom Event",
+		"body": [
+            "[QGVAR(EH_${1:name}), _params] call CBA_fnc_remoteEvent;"
+		]
+	},
+	"cba_event_raise_target" : {
+		"prefix": ["raise_target","raise_target_Event"],
+		"description": "template for raising a cba custom Event",
+		"body": [
+            "[QGVAR(EH_${1:name}), _params, _targets] call CBA_fnc_targetEvent;     //_target can be single object or group or an array of those - will be executed only once per mashine"
+		]
+	},
+	"cba_event_raise_global" : {
+		"prefix": ["raise_global","raise_global_Event"],
+		"description": "template for raising a cba custom Event",
+		"body": [
+            "[QGVAR(EH_${1:name}), _params] call CBA_fnc_globalEvent;"
+		]
+	},
+	"cba_event_raise_globalJIP" : {
+		"prefix": ["raise_globalJIP","raise_globalJIP_Event"],
+		"description": "template for raising a cba custom Event",
+		"body": [
+            "private _jipID = [QGVAR(EH_${1:name}), _params, _jipID] call CBA_fnc_globalEventJIP;"
+		]
+	},
+	"cba_event_remove_globalJIP_object" : {
+		"prefix": ["remove_globalJIP_object","remove_globalJIP_Event_object"],
+		"description": "template for raising a cba custom Event",
+		"body": [
+            "[_jipId, _object] call CBA_fnc_removeGlobalEventJIP; // Will remove JIP EH when object is deleted"
+		]
+	},
+	"cba_event_remove_globalJIP" : {
+		"prefix": ["remove_globalJIP","remove_globalJIP_Event"],
+		"description": "template for raising a cba custom Event",
+		"body": [
+            "[_jipId] call CBA_fnc_removeGlobalEventJIP;"
+		]
+	}
+}

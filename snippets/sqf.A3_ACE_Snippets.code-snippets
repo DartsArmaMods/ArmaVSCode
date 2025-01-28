@@ -1,0 +1,123 @@
+{
+	// Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+    	"ACE_interaction_createAction": {
+		"prefix": ["ACE_createAction", "ace_interact_menu_fnc_createAction", "interaction_createAction"],
+		"body": [
+        "private _params = [];",
+        "private _code = {",
+        "    params [\"_target\", \"_player\", \"_actionParams\"];",
+        "    _actionParams params [\"\"];",
+        "    ${1:/* me code here */}",
+        "};",
+		"",
+		"private _aceAction = [",
+		"    \"${2:My_Action_ID_Name}\"            // * 0: Action name <STRING>",
+		"    ,\"${3:Display String}\"              //  * 1: Name of the action shown in the menu <STRING>",
+		"    ,${4:\"\"}                            //  * 2: Icon <STRING> \"\\A3\\ui_f\\data\\igui\\cfg\\simpleTasks\\types\\backpack_ca.paa\"",
+		"    ,_code                                //  * 3: Statement <CODE>",
+		"    ,{${5:true}}                          //  * 4: Condition <CODE>",
+		"//    ,{}                                   //  * 5: Insert children code <CODE> (Optional)",
+		"//    ,_params                              //  * 6: Action parameters <ANY> (Optional)",
+		"//    ,[0,0,0]                              //  * 7: Position (Position array, Position code or Selection Name) <ARRAY>, <CODE> or <STRING> (Optional)",
+		"//    ,20                                   //  * 8: Distance <NUMBER> (Optional)",
+		"//    ,[false,false,false,false,false]      //  * 9: Other parameters [showDisabled,enableInside,canCollapse,runOnHover,doNotCheckLOS] <ARRAY> (Optional)",
+		"//    ,{}                                   //  * 10: Modifier function <CODE> (Optional)",
+		"] call ace_interact_menu_fnc_createAction;"
+		],
+		"description": "ACE_createAction"
+	},
+
+    	"ACE_interaction_actionParameters": {
+		"prefix": ["ACE_action_params"],
+		"body": [
+            "params [\"_target\", \"_player\", \"_params\"];"
+            ,"_params params  [\"\"];"
+    	],
+		"description": "ACE_ActionParameters"
+	},
+
+
+    	"ACE_interaction_addActiontoObject": {
+		"prefix": ["ACE_addActiontoObject", "ace_interact_menu_fnc_addActionToObject", "interaction_actionToObject"],
+		"body": [
+		"["
+		,"    ${1:_object}                    		// * 0: Object the action should be assigned to <OBJECT>"
+		,"    ,0                         		    // * 1: Type of action, 0 for actions, 1 for self-actions <NUMBER>"
+		,"    ,[\"ACE_MainActions\"]             	// * 2: Parent path of the new action <ARRAY> (Example: [\"ACE_SelfActions\", \"ACE_Equipment\"])"
+		,"    ,_aceAction    	         			// * 3: Action <ARRAY>    ",
+		,"] call ace_interact_menu_fnc_addActionToObject;"
+		],
+		"description": "ACE_addActiontoObject"
+	},
+
+    	"ACE_interaction_addActiontoClass": {
+		"prefix": ["ACE_addActiontoClass", "ace_interact_menu_fnc_addActionToClass", "interaction_actionToClass"],
+		"body": [
+		"[",
+        "    \"${1:_className}\"                        // * 0: TypeOf of the class <STRING>",
+		"    ,0                                  		// * 1: Type of action, 0 for actions, 1 for self-actions <NUMBER>",
+		"    ,[\"ACE_MainActions\"]                 	// * 2: Parent path of the new action <ARRAY> (Example: `[\"ACE_SelfActions\", \"ACE_Equipment\"]`)",
+		"    ,_aceAction    	         		    	// * 3: Action <ARRAY>",
+		"    ,false	                			        // * 4: Use Inheritance <BOOL> (default: false)",
+		"    ,[]                 			            // * 5: Classes excluded from inheritance (children included) <ARRAY> (default: [])",
+		"] call ace_interact_menu_fnc_addActionToClass;"
+		],
+		"description": "ACE_addActiontoClass"
+	},
+
+    	"ACE_interaction_addActiontoZeus": {
+		"prefix": ["ACE_addActiontoZeus", "ace_interact_menu_fnc_addActionToZeus", "interaction_actionToZeus"],
+		"body": [
+		"[",
+        "    [\"ACE_ZeusActions\"]                      // * 0: Parent path of the new action (e.g. [\"ACE_ZeusActions\"]) <ARRAY>",
+		"    ,_aceAction	         	        		// * 1: Action <ARRAY>",
+		"] call ace_interact_menu_fnc_addActionToZeus;"
+		],
+		"description": "ACE_addActiontoZeus"
+	},
+
+
+    "ACE_Progressbar":{
+        "prefix":["ace_progressbar", "progressbar"],
+        "body":[
+            "[",
+            "    5                       // * 0: Total Time (in game \"time\" seconds) <NUMBER>",
+            "    ,[]                     // * 1: Arguments, passed to condition, fail and finish <ARRAY>",
+            "    // * 2: On Finish: Code called or STRING raised as event. <CODE, STRING>",
+            "    ,{",
+            "        params [\"_args\", \"_elapsedTime\", \"_totalTime\", \"_errorCode\"];",
+            "        // _args params [];",
+            "        ",
+            "        ",
+            "    }",
+            "    // * 3: On Failure: Code called or STRING raised as event. <CODE, STRING>",
+            "    ,{",
+            "        params [\"_args\", \"_elapsedTime\", \"_totalTime\", \"_errorCode\"];",
+            "        // _args params [];",
+            "",
+            "",
+            "    }   ",
+            "    ,\"\"                     // * 4: Localized Title <STRING> (default: \"\")",
+            "    ,{true}                 // * 5: Code to check each frame <CODE> (default: {true})",
+            "    ,[]                     // * 6: Exceptions for checking ace_common_fnc_canInteractWith <ARRAY> (default: [])",
+            "    ,true                   // * 7: Create progress bar as dialog, this blocks user input <BOOL> (default: true)",
+            "",
+            "] call ace_common_fnc_progressBar;"
+        ]
+    }
+}

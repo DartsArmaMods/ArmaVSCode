@@ -27,46 +27,6 @@
         "prefix": "ace_header",
         "description": "ACE's function header"
     },
-    "CBA Function Header": {
-        "body": [
-            "#include \"..\\script_component.hpp\"",
-            "/* ----------------------------------------------------------------------------",
-            "Function: ${1:PREFIX}_${TM_DIRECTORY/(.*)addons\\\\(.*)\\\\functions(.*)/$2/i}_${TM_FILENAME_BASE}",
-            "Description:",
-            "    ${2:Description}.",
-            "",
-            "Parameters:",
-            "    ${3:_param}  - ${4:Parameter description} <${5|OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}>",
-            "",
-            "Returns:",
-            "    ${6:Return description} <${7|NONE,OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}>",
-            "",
-            "Examples",
-            "    (begin example)",
-            "        ${8:[params]} call $1_${TM_DIRECTORY/(.*)addons\\\\(.*)\\\\functions(.*)/$2/i}_${TM_FILENAME_BASE}",
-            "    (end)",
-            "",
-            "Author:",
-            "    ${9:You}",
-            "---------------------------------------------------------------------------- */",
-            "",
-            "params [];",
-            "TRACE_1(\"${TM_FILENAME_BASE}\",_this);",
-            "",
-            "$0"
-        ],
-        "prefix": "cba_header",
-        "description": "CBA's function header"
-    },
-    "CBA Settings Event Handler": {
-        "body": [
-            "[\"CBA_settingsInitialized\", {",
-            "    $0",
-            "}] call CBA_fnc_addEventHandler;"
-        ],
-        "prefix": "cba_settings_eh",
-        "description": "Event Handler for CBA settings initializing"
-    },
     "SQF Data Type": {
         "body": [
             "${1|NONE,OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}"

@@ -29,6 +29,10 @@
             {
                 "command": "lazyarmadev.generatePrepFile",
                 "title": "Generate XEH_PREP.hpp"
+            },
+            {
+                "command": "lazyarmadev.generateStringtableKey",
+                "title": "Generate Stringtable Key"
             }
         ],
         "snippets": [
@@ -61,6 +65,12 @@
                     "command": "lazyarmadev.generatePrepFile",
                     "group": "5_cutcopypaste",
                     "when": "resourcePath =~ /functions$/i"
+                }
+            ],
+            "editor/context": [
+                {
+                    "command": "lazyarmadev.generateStringtableKey",
+                    "when": "resourceDirname =~ /addons/i"
                 }
             ]
         }

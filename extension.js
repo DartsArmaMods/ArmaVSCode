@@ -43,6 +43,47 @@ function copyPath(macroPath, useExternal = false) {
 }
 
 /**
+ * Adds a translation key to the given .xml file
+ * @param {String} filePath The path to the stringtable.xml file
+ * @param {String} stringKey The translation key
+ */
+function addStringtableKey(filePath, stringKey) {
+    let content = fs.readFileSync(filePath, {encoding: "utf-8", flag: "r"}).split("\n");
+
+    const newKey = `        <Key ID="${stringKey}">
+            <English></English>
+        </Key>`;
+    content.splice(content.length - 2, 0, newKey);
+
+    fs.writeFile(filePath, content.join("\n"), err => {
+        if (err) {
+            vscode.window.showErrorMessage(`Failed to write to stringtable file at ${filePath}`);
+        } else {
+            vscode.window.showInformationMessage(`Generated stringtable key for ${stringKey}`);
+        }
+    });
+}
+
+/**
+ * Returns the various "prefixes" for the mod / addon
+ * @return {string[]} Array of [main prefix, prefix, component]
+ */
+function getProjectPrefix() {
+    const filePath = vscode.window.activeTextEditor.document.fileName;
+    let addonDir = filePath.match(addonDiskRegex)[0];
+    const addonDirArray = addonDir.split("\\");
+    const component = addonDirArray[addonDirArray.length - 1];
+
+    // Read $PBOPREFIX$ file to get main prefix and prefix
+    const prefixContent = fs.readFileSync(`${addonDir}\\$PBOPREFIX$`, {encoding: "utf-8", flag: "r"}).split("\\");
+    const mainprefix = prefixContent[0];
+    const prefix = prefixContent[1];
+
+    let returnValue = [mainprefix, prefix, component];
+    return returnValue;
+}
+
+/**
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
@@ -100,6 +141,41 @@ function activate(context) {
         });
     });
     context.subscriptions.push(generatePrepFile);
+
+    const generateStringtableKey = vscode.commands.registerCommand("lazyarmadev.generateStringtableKey", function () {
+        const activeEditor = vscode.window.activeTextEditor;
+        const document = activeEditor.document;
+
+        const match = document.fileName.match(addonDiskRegex)[0];
+        const stringtableDir = `${match}\\stringtable.xml`;
+        logMessage("TRACE", `stringtableDir=${stringtableDir}`);
+
+        const [, prefix, component] = getProjectPrefix();
+        let stringKey = document.getText(document.getWordRangeAtPosition(activeEditor.selection.active));
+        stringKey = `STR_${prefix}_${component}_${stringKey}`;
+        logMessage("TRACE", `stringKey="${stringKey}"`);
+
+        // File doesn't exist, so create a "blank" stringtable
+        if (!fs.existsSync(stringtableDir)) {
+            logMessage("TRACE", "No stringtable.xml found, creating blank file");
+            const content = `<?xml version="1.0" encoding="utf-8"?>
+<Project name="${prefix.toUpperCase()}">
+    <Package name="${component}">
+    </Package>
+</Project>`;
+            fs.writeFile(stringtableDir, content, err => {
+                if (err) {
+                    vscode.window.showErrorMessage(`Failed to create missing stringtable file at ${stringtableDir}`);
+                } else {
+                    vscode.window.showInformationMessage(`Automatically generated missing stringtable.xml file`);
+                    addStringtableKey(stringtableDir, stringKey);
+                }
+            });
+        } else {
+            addStringtableKey(stringtableDir, stringKey);
+        }
+    });
+    context.subscriptions.push(generateStringtableKey);
 }
 
 function deactivate() {}

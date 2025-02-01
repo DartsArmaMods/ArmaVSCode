@@ -2,8 +2,9 @@ const vscode = require("vscode");
 const fs = require("fs");
 
 /**
- * @param {String} level
- * @param {String} message
+ * Logs a message to the debug console
+ * @param {String} level Log level, e.g. TRACE, INFO, WARN, ERROR
+ * @param {String} message The message to log
  */
 function logMessage(level, message) {
     level = level.toUpperCase();
@@ -13,12 +14,21 @@ function logMessage(level, message) {
     console.log(`[LazyArmaDev] ${level}: ${message}`);
 }
 
-const addonRegex = /addons\/(.*)/;
+// Used to get the path to something inside the component folder
+const addonRegex = /addons\\(.*)/;
 
+// Used to get the path on disk to the component
+const addonDiskRegex = /.*\\addons\\[^\\]*/;
+
+/**
+ * Copies the "macro'd" path to a file using the QPATHTOF / QPATHTOEF macros
+ * @param {string} macroPath The path to the given file or folder
+ * @param {boolean} useExternal (default, false) Use QPATHTOEF macro
+ */
 function copyPath(macroPath, useExternal = false) {
     const match = macroPath.match(addonRegex)[1];
     logMessage("TRACE", `macroPath=${macroPath}, match=${match}`);
-    let macroPathArray = match.split("/");
+    let macroPathArray = match.split("\\");
     const componentName = macroPathArray.shift();
 
     if (useExternal) {
@@ -27,7 +37,7 @@ function copyPath(macroPath, useExternal = false) {
         macroPath = `QPATHTOF(${macroPathArray.join("\\")})`;
     };
 
-    logMessage("LOG", `Copied path to clipboard: ${macroPath}`);
+    logMessage("INFO", `Copied path to clipboard: ${macroPath}`);
     vscode.window.showInformationMessage(`Copied ${macroPath} path to clipboard`);
     vscode.env.clipboard.writeText(macroPath);
 }
@@ -36,24 +46,26 @@ function copyPath(macroPath, useExternal = false) {
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-    const copyMacroPath = vscode.commands.registerCommand("lazyarmadev.copyMacroPath", function (editor) {
-        copyPath(editor.path);
+    const copyMacroPath = vscode.commands.registerCommand("lazyarmadev.copyMacroPath", function () {
+        const activeEditor = vscode.window.activeTextEditor;
+        copyPath(activeEditor.document.fileName);
     });
     context.subscriptions.push(copyMacroPath);
 
-    const copyExternalMacroPath = vscode.commands.registerCommand("lazyarmadev.copyExternalMacroPath", function (editor) {
-        copyPath(editor.path, true);
+    const copyExternalMacroPath = vscode.commands.registerCommand("lazyarmadev.copyExternalMacroPath", function () {
+        const activeEditor = vscode.window.activeTextEditor;
+        copyPath(activeEditor.document.fileName, true);
     });
     context.subscriptions.push(copyExternalMacroPath);
 
-    const generatePrepFile = vscode.commands.registerCommand("lazyarmadev.generatePrepFile", function (editor) {
-        logMessage("TRACE", `editor.path=${editor.path}`);
-        let functionsFolderArray = editor.path.split("/"); // VS Code returns path as "/<drive>/path/..."
-        functionsFolderArray.shift(); // Remove leading "/"
-        functionsFolderArray.shift(); // Remove "<drive>:/"
-        const functionsFolder = "/" + functionsFolderArray.join("/");
+    const generatePrepFile = vscode.commands.registerCommand("lazyarmadev.generatePrepFile", function () {
+        const document = vscode.window.activeTextEditor.document;
+        logMessage("TRACE", `document.fileName=${document.fileName}`);
+        let functionsFolderArray = document.fileName.split("\\"); // VS Code returns path as "<drive>:\path\..."
+        functionsFolderArray.pop(); // Remove file name
+        const functionsFolder = functionsFolderArray.join("\\");
 
-        logMessage("LOG", `Generating PREP file for "${functionsFolder}"`);
+        logMessage("INFO", `Generating PREP file for "${functionsFolder}"`);
         let files = fs.readdirSync(functionsFolder);
 
         // Only PREP sqf files
@@ -78,7 +90,7 @@ function activate(context) {
         files.sort();
 
         functionsFolderArray.pop(); // Remove "functions", XEH_PREP should be in addon root
-        const prepFileDir = "/" + functionsFolderArray.join("/") + "/XEH_PREP.hpp"
+        const prepFileDir = functionsFolderArray.join("\\") + "\\XEH_PREP.hpp"
         fs.writeFile(prepFileDir, content, err => {
             if (err) {
                 vscode.window.showErrorMessage(`Failed to create file at ${prepFileDir}`);

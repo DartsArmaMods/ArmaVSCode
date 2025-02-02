@@ -87,6 +87,28 @@ function getProjectPrefix() {
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
+    // Custom when clause for when the "Generate Stringtable Key" command should be shown
+    vscode.window.onDidChangeTextEditorSelection((event) => {
+        if (event.kind === undefined) { return };
+
+        const document = vscode.window.activeTextEditor.document;
+        const position = event.selections[0].anchor;
+
+        // Get the previous word, rather than where the cursor is
+        let selectedWord = document.getText(document.getWordRangeAtPosition(position));
+
+        const newCharacter = position.character - selectedWord.length;
+        if (newCharacter <= 0) {
+            vscode.commands.executeCommand("setContext", "LazyArmaDev.selectedStringtableMacro", false);
+            return
+        };
+
+        const macroStart = new vscode.Position(position.line, newCharacter);
+
+        selectedWord = document.getText(document.getWordRangeAtPosition(macroStart));
+        vscode.commands.executeCommand("setContext", "LazyArmaDev.selectedStringtableMacro", selectedWord.endsWith("STRING")); // CSTRING, LSTRING, LLSTRING, etc.
+    });
+
     const copyMacroPath = vscode.commands.registerCommand("lazyarmadev.copyMacroPath", function () {
         const activeEditor = vscode.window.activeTextEditor;
         copyPath(activeEditor.document.fileName);

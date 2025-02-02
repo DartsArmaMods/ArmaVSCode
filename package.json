@@ -14,7 +14,7 @@
     "categories": [
         "Snippets"
     ],
-    "activationEvents": [],
+    "activationEvents": ["onStartupFinished"],
     "main": "./extension.js",
     "contributes": {
         "commands": [
@@ -70,7 +70,7 @@
             "editor/context": [
                 {
                     "command": "lazyarmadev.generateStringtableKey",
-                    "when": "resourceDirname =~ /addons/i"
+                    "when": "resourceDirname =~ /addons/i && LazyArmaDev.selectedStringtableMacro"
                 }
             ]
         }

@@ -5,6 +5,9 @@
         <img src="https://img.shields.io/visual-studio-marketplace/stars/DartRuffian.LazyArmaDev?style=flat-square&label=Rating" alt="LazyArmaDev Rating">
         <img src="https://img.shields.io/visual-studio-marketplace/d/DartRuffian.LazyArmaDev?style=flat-square&label=Downloads" alt="LazyArmaDev Downloads">
     </a>
+    <br>
+    <img src="https://img.shields.io/github/actions/workflow/status/DartsArmaMods/LazyArmaDev/check.yml?style=flat-square&label=VSCE" alt="VSCE">
+    <img src="https://img.shields.io/github/actions/workflow/status/DartsArmaMods/LazyArmaDev/validate.yml?style=flat-square&label=Validate" alt="Validate">
 </p>
 
 

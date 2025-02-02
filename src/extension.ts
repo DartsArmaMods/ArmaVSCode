@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import fs from "fs/promises";
 import {ELogLevel} from "./e-log-level";
 import {existsSync} from "fs";
-import { extname, join } from "path";
+import { extname, join, parse } from "path";
 /**
  * Logs a message to the debug console
  * @param {String} level Log level, e.g. TRACE, INFO, WARN, ERROR
@@ -143,16 +143,16 @@ function activate(context: vscode.ExtensionContext) {
         let functionsFolderArray = editor.path.split("/");
         functionsFolderArray.shift();
         logMessage(ELogLevel.TRACE, `functionsFolderArray=[${functionsFolderArray}]`);
-        const functionsFolder = join(...functionsFolderArray);
+        const functionsFolder = join(...functionsFolderArray, "");
 
         logMessage(ELogLevel.INFO, `Generating PREP file for "${functionsFolder}"`);
         let files = await fs.readdir(functionsFolder);
 
         // Only PREP sqf files
-        files = files.filter((file) => extname(file.toLowerCase()) === "sqf");
+        files = files.filter((file) => extname(file.toLowerCase()) === ".sqf");
 
-        files.map(file => {
-            let functionName = extname(file); // Remove extension
+        files = files.map(file => {
+            let functionName = parse(file).name; // Remove extension
             functionName = (functionName.split("_").splice(1)).join("_"); // Remove fn_ / fnc_ prefix
             return `PREP(${functionName});`;
         });

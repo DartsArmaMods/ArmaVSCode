@@ -121,27 +121,24 @@ function activate(context: vscode.ExtensionContext) {
         vscode.commands.executeCommand("setContext", "LazyArmaDev.selectedStringtableMacro", selectedWord.endsWith("STRING")); // CSTRING, LSTRING, LLSTRING, etc.
     });
 
-    const copyMacroPath = vscode.commands.registerCommand("lazyarmadev.copyMacroPath", function () {
-        const activeEditor = vscode.window.activeTextEditor;
-        if (isUndefined(activeEditor)) { return; }
-        copyPath(activeEditor!.document.fileName);
+    const copyMacroPath = vscode.commands.registerCommand("lazyarmadev.copyMacroPath", function (editor) {
+        let path = editor.path.split("/");
+        path.shift();
+        copyPath(path.join("\\"));
     });
     context.subscriptions.push(copyMacroPath);
 
-    const copyExternalMacroPath = vscode.commands.registerCommand("lazyarmadev.copyExternalMacroPath", function () {
-        const activeEditor = vscode.window.activeTextEditor;
-        if (isUndefined(activeEditor)) { return; }
-        copyPath(activeEditor!.document.fileName, true);
+    const copyExternalMacroPath = vscode.commands.registerCommand("lazyarmadev.copyExternalMacroPath", function (editor) {
+        let path = editor.path.split("/");
+        path.shift();
+        copyPath(path.join("\\"), true);
     });
     context.subscriptions.push(copyExternalMacroPath);
 
-    const generatePrepFile = vscode.commands.registerCommand("lazyarmadev.generatePrepFile", function () {
-        const document = vscode?.window?.activeTextEditor?.document;
-        if (isUndefined(document)) { return; }
-
-        logMessage("TRACE", `document.fileName=${document!.fileName}`);
-        let functionsFolderArray = document!.fileName.split("\\"); // VS Code returns path as "<drive>:\path\..."
-        functionsFolderArray.pop(); // Remove file name
+    const generatePrepFile = vscode.commands.registerCommand("lazyarmadev.generatePrepFile", function (editor) {
+        let functionsFolderArray = editor.path.split("/");
+        functionsFolderArray.shift();
+        logMessage("TRACE", `functionsFolderArray=[${functionsFolderArray}]`);
         const functionsFolder = functionsFolderArray.join("\\");
 
         logMessage("INFO", `Generating PREP file for "${functionsFolder}"`);
@@ -180,19 +177,15 @@ function activate(context: vscode.ExtensionContext) {
     });
     context.subscriptions.push(generatePrepFile);
 
-    const generateStringtableKey = vscode.commands.registerCommand("lazyarmadev.generateStringtableKey", function () {
-        const activeEditor = vscode.window.activeTextEditor;
-        const document = activeEditor?.document;
-
-        if (isUndefined(activeEditor) || (isUndefined(document))) { return; }
-
+    const generateStringtableKey = vscode.commands.registerTextEditorCommand("lazyarmadev.generateStringtableKey", function (textEditor: vscode.TextEditor) {
+        const document = textEditor.document;
         const match = document!.fileName.match(addonDiskRegex);
 
         const stringtableDir = `${match![0]}\\stringtable.xml`;
         logMessage("TRACE", `stringtableDir=${stringtableDir}`);
 
         const [, prefix, component] = getProjectPrefix();
-        let stringKey = document!.getText(document!.getWordRangeAtPosition(activeEditor!.selection.active));
+        let stringKey = document!.getText(document!.getWordRangeAtPosition(textEditor!.selection.active));
         stringKey = `STR_${prefix}_${component}_${stringKey}`;
         logMessage("TRACE", `stringKey="${stringKey}"`);
 

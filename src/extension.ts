@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import fs from "fs/promises";
 import {ELogLevel} from "./e-log-level";
 import {existsSync} from "fs";
-import { extname } from "path";
+import { extname, join } from "path";
 /**
  * Logs a message to the debug console
  * @param {String} level Log level, e.g. TRACE, INFO, WARN, ERROR
@@ -123,20 +123,23 @@ function activate(context: vscode.ExtensionContext) {
     });
 
     const copyMacroPath = vscode.commands.registerCommand("lazyarmadev.copyMacroPath", async (editor) => {
+        if (!editor) { return; }
         let path = editor.path.split("/");
         path.shift();
-        await copyPath(path.join("\\"));
+        await copyPath(join(...path));
     });
     context.subscriptions.push(copyMacroPath);
 
     const copyExternalMacroPath = vscode.commands.registerCommand("lazyarmadev.copyExternalMacroPath", async (editor) => {
+        if (!editor) { return; }
         let path = editor.path.split("/");
         path.shift();
-        await copyPath(path.join("\\"), true);
+        await copyPath(join(...path), true);
     });
     context.subscriptions.push(copyExternalMacroPath);
 
     const generatePrepFile = vscode.commands.registerCommand("lazyarmadev.generatePrepFile", async (editor) => {
+        if (!editor) { return; }
         let functionsFolderArray = editor.path.split("/");
         functionsFolderArray.shift();
         logMessage(ELogLevel.TRACE, `functionsFolderArray=[${functionsFolderArray}]`);
@@ -160,7 +163,7 @@ function activate(context: vscode.ExtensionContext) {
         files.sort();
 
         functionsFolderArray.pop(); // Remove "functions", XEH_PREP should be in addon root
-        const prepFileDir = functionsFolderArray.join("\\") + "\\XEH_PREP.hpp";
+        const prepFileDir = join(...functionsFolderArray, "XEH_PREP.hpp");
         try {
             await fs.writeFile(prepFileDir, content);
             await vscode.window.showInformationMessage(`Generated XEH_PREP.hpp file for ${files.length} functions`);
@@ -171,6 +174,7 @@ function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(generatePrepFile);
 
     const generateStringtableKey = vscode.commands.registerTextEditorCommand("lazyarmadev.generateStringtableKey", async (textEditor: vscode.TextEditor) =>  {
+        if (!textEditor) { return; }
         const document = textEditor.document;
         const match = document!.fileName.match(addonDiskRegex);
 

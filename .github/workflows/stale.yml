@@ -3,7 +3,7 @@ on:
   schedule:
     # Format: minute hour day_of_month month day_of_week, everything is UTC
     # "*" = any
-    - cron: "50 17 * * *"
+    - cron: "0 6 * * *"
   workflow_dispatch:
 
 permissions:

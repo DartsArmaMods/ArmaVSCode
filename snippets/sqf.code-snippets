@@ -1,32 +1,5 @@
 {
     // Some of these features like the drop down menus were brought to my attention by https://github.com/Timi007, thanks!
-    "ACE Function Header": {
-        "body": [
-            "#include \"..\\script_component.hpp\"",
-            "/*",
-            " * Authors: ${1:You}",
-            " * ${2:Description}.",
-            " *",
-            " * Arguments:",
-            " * 0: ${3:Argument} (optional, default: value) <${4|OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}>",
-            " *",
-            " * Return Value:",
-            " * ${5:Return description} <${6|NONE,OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}>",
-            " *",
-            " * Example:",
-            " * ${7:[params]} call ${8:PREFIX}_${TM_DIRECTORY/(.*)addons\\\\(.*)\\\\functions(.*)/$2/i}_${TM_FILENAME_BASE}",
-            " *",
-            " * Public: ${9|No,Yes|}",
-            " */",
-            "",
-            "params [];",
-            "TRACE_1(\"${TM_FILENAME_BASE}\",_this);",
-            "",
-            "$0"
-        ],
-        "prefix": "ace_header",
-        "description": "ACE's function header"
-    },
     "SQF Data Type": {
         "body": [
             "${1|NONE,OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}"

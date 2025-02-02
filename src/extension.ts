@@ -1,12 +1,16 @@
-const vscode = require("vscode");
-const fs = require("fs");
+import * as vscode from 'vscode';
+import fs from "fs";
+
+function isUndefined(value: any): boolean {
+    return (value === null || value === undefined);
+}
 
 /**
  * Logs a message to the debug console
  * @param {String} level Log level, e.g. TRACE, INFO, WARN, ERROR
  * @param {String} message The message to log
  */
-function logMessage(level, message) {
+function logMessage(level: string, message: string) {
     level = level.toUpperCase();
     const length = level.length;
 
@@ -25,10 +29,12 @@ const addonDiskRegex = /.*\\addons\\[^\\]*/;
  * @param {string} macroPath The path to the given file or folder
  * @param {boolean} useExternal (default, false) Use QPATHTOEF macro
  */
-function copyPath(macroPath, useExternal = false) {
-    const match = macroPath.match(addonRegex)[1];
+function copyPath(macroPath: string, useExternal: boolean = false) {
+    const match = macroPath.match(addonRegex);
+    if (isUndefined(match)) { return; }
+
     logMessage("TRACE", `macroPath=${macroPath}, match=${match}`);
-    let macroPathArray = match.split("\\");
+    let macroPathArray = match![1].split("\\");
     const componentName = macroPathArray.shift();
 
     if (useExternal) {
@@ -47,7 +53,7 @@ function copyPath(macroPath, useExternal = false) {
  * @param {String} filePath The path to the stringtable.xml file
  * @param {String} stringKey The translation key
  */
-function addStringtableKey(filePath, stringKey) {
+function addStringtableKey(filePath: string, stringKey: string) {
     let content = fs.readFileSync(filePath, {encoding: "utf-8", flag: "r"}).split("\n");
 
     const newKey = `        <Key ID="${stringKey}">
@@ -68,10 +74,14 @@ function addStringtableKey(filePath, stringKey) {
  * Returns the various "prefixes" for the mod / addon
  * @return {string[]} Array of [main prefix, prefix, component]
  */
-function getProjectPrefix() {
-    const filePath = vscode.window.activeTextEditor.document.fileName;
-    let addonDir = filePath.match(addonDiskRegex)[0];
-    const addonDirArray = addonDir.split("\\");
+function getProjectPrefix(): string[] {
+    const filePath = vscode.window.activeTextEditor?.document.fileName;
+    if (isUndefined(filePath)) { return ["", "", ""]; }
+
+    let addonDir = filePath!.match(addonDiskRegex);
+    if (addonDir === null) { return ["", "", ""]; }
+
+    const addonDirArray = addonDir[0].split("\\");
     const component = addonDirArray[addonDirArray.length - 1];
 
     // Read $PBOPREFIX$ file to get main prefix and prefix
@@ -86,12 +96,13 @@ function getProjectPrefix() {
 /**
  * @param {vscode.ExtensionContext} context
  */
-function activate(context) {
+function activate(context: vscode.ExtensionContext) {
     // Custom when clause for when the "Generate Stringtable Key" command should be shown
     vscode.window.onDidChangeTextEditorSelection((event) => {
-        if (event.kind === undefined) { return };
+        if (event.kind === undefined) { return; };
 
-        const document = vscode.window.activeTextEditor.document;
+        const document = vscode.window.activeTextEditor?.document;
+        if (document === null || document === undefined) { return; }
         const position = event.selections[0].anchor;
 
         // Get the previous word, rather than where the cursor is
@@ -100,7 +111,7 @@ function activate(context) {
         const newCharacter = position.character - selectedWord.length;
         if (newCharacter <= 0) {
             vscode.commands.executeCommand("setContext", "LazyArmaDev.selectedStringtableMacro", false);
-            return
+            return;
         };
 
         const macroStart = new vscode.Position(position.line, newCharacter);
@@ -112,20 +123,24 @@ function activate(context) {
 
     const copyMacroPath = vscode.commands.registerCommand("lazyarmadev.copyMacroPath", function () {
         const activeEditor = vscode.window.activeTextEditor;
-        copyPath(activeEditor.document.fileName);
+        if (isUndefined(activeEditor)) { return; }
+        copyPath(activeEditor!.document.fileName);
     });
     context.subscriptions.push(copyMacroPath);
 
     const copyExternalMacroPath = vscode.commands.registerCommand("lazyarmadev.copyExternalMacroPath", function () {
         const activeEditor = vscode.window.activeTextEditor;
-        copyPath(activeEditor.document.fileName, true);
+        if (isUndefined(activeEditor)) { return; }
+        copyPath(activeEditor!.document.fileName, true);
     });
     context.subscriptions.push(copyExternalMacroPath);
 
     const generatePrepFile = vscode.commands.registerCommand("lazyarmadev.generatePrepFile", function () {
-        const document = vscode.window.activeTextEditor.document;
-        logMessage("TRACE", `document.fileName=${document.fileName}`);
-        let functionsFolderArray = document.fileName.split("\\"); // VS Code returns path as "<drive>:\path\..."
+        const document = vscode?.window?.activeTextEditor?.document;
+        if (isUndefined(document)) { return; }
+
+        logMessage("TRACE", `document.fileName=${document!.fileName}`);
+        let functionsFolderArray = document!.fileName.split("\\"); // VS Code returns path as "<drive>:\path\..."
         functionsFolderArray.pop(); // Remove file name
         const functionsFolder = functionsFolderArray.join("\\");
 
@@ -136,14 +151,14 @@ function activate(context) {
         files = files.filter(function (file) {
             const extensionArray = file.split(".");
             const extension = extensionArray[extensionArray.length - 1];
-            return extension.toLowerCase() == "sqf";
+            return extension.toLowerCase() === "sqf";
         });
 
         // Convert fnc_function_name.sqf -> PREP(function_name);
-        files.forEach(function (file, index) {
+        files.forEach((file, index) => {
             let functionName = file.split(".")[0]; // Remove extension
             functionName = (functionName.split("_").splice(1)).join("_"); // Remove fn_ / fnc_ prefix
-            this[index] = `PREP(${functionName});`;
+            files[index] = `PREP(${functionName});`;
         }, files);
 
         // Filter out files that didn't match
@@ -154,7 +169,7 @@ function activate(context) {
         files.sort();
 
         functionsFolderArray.pop(); // Remove "functions", XEH_PREP should be in addon root
-        const prepFileDir = functionsFolderArray.join("\\") + "\\XEH_PREP.hpp"
+        const prepFileDir = functionsFolderArray.join("\\") + "\\XEH_PREP.hpp";
         fs.writeFile(prepFileDir, content, err => {
             if (err) {
                 vscode.window.showErrorMessage(`Failed to create file at ${prepFileDir}`);
@@ -167,14 +182,17 @@ function activate(context) {
 
     const generateStringtableKey = vscode.commands.registerCommand("lazyarmadev.generateStringtableKey", function () {
         const activeEditor = vscode.window.activeTextEditor;
-        const document = activeEditor.document;
+        const document = activeEditor?.document;
 
-        const match = document.fileName.match(addonDiskRegex)[0];
-        const stringtableDir = `${match}\\stringtable.xml`;
+        if (isUndefined(activeEditor) || (isUndefined(document))) { return; }
+
+        const match = document!.fileName.match(addonDiskRegex);
+
+        const stringtableDir = `${match![0]}\\stringtable.xml`;
         logMessage("TRACE", `stringtableDir=${stringtableDir}`);
 
         const [, prefix, component] = getProjectPrefix();
-        let stringKey = document.getText(document.getWordRangeAtPosition(activeEditor.selection.active));
+        let stringKey = document!.getText(document!.getWordRangeAtPosition(activeEditor!.selection.active));
         stringKey = `STR_${prefix}_${component}_${stringKey}`;
         logMessage("TRACE", `stringKey="${stringKey}"`);
 
@@ -206,4 +224,4 @@ function deactivate() {}
 module.exports = {
     activate,
     deactivate
-}
+};

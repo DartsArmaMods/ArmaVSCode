@@ -32,9 +32,9 @@ async function copyPath(macroPath: string, useExternal: boolean = false) {
     const componentName = macroPathArray.shift();
 
     if (useExternal) {
-        macroPath = `QPATHTOEF(${componentName},${macroPathArray.join("\\")})`;
+        macroPath = `QPATHTOEF(${componentName},${join(...macroPathArray)})`;
     } else {
-        macroPath = `QPATHTOF(${macroPathArray.join("\\")})`;
+        macroPath = `QPATHTOF(${join(...macroPathArray)})`;
     }
 
     logMessage(ELogLevel.INFO, `Copied path to clipboard: ${macroPath}`);
@@ -143,7 +143,7 @@ function activate(context: vscode.ExtensionContext) {
         let functionsFolderArray = editor.path.split("/");
         functionsFolderArray.shift();
         logMessage(ELogLevel.TRACE, `functionsFolderArray=[${functionsFolderArray}]`);
-        const functionsFolder = functionsFolderArray.join("\\");
+        const functionsFolder = join(...functionsFolderArray);
 
         logMessage(ELogLevel.INFO, `Generating PREP file for "${functionsFolder}"`);
         let files = await fs.readdir(functionsFolder);

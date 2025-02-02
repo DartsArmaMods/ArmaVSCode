@@ -1,0 +1,126 @@
+{
+    "CBA Function Header": {
+        "body": [
+            "#include \"..\\script_component.hpp\"",
+            "/* ----------------------------------------------------------------------------",
+            "Function: ${1:PREFIX}_${TM_DIRECTORY/(.*)addons\\\\(.*)\\\\functions(.*)/$2/i}_${TM_FILENAME_BASE}",
+            "Description:",
+            "    ${2:Description}.",
+            "",
+            "Parameters:",
+            "    ${3:_param}  - ${4:Parameter description} <${5|OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}>",
+            "",
+            "Returns:",
+            "    ${6:Return description} <${7|NONE,OBJECT,NUMBER,STRING,BOOL,ARRAY,CONTROL,DISPLAY,CONFIG,CODE,ANY,LOGIC,SIDE,GROUP,HASHMAP,NAMESPACE,LOCATION,TEXT|}>",
+            "",
+            "Examples",
+            "    (begin example)",
+            "        ${8:[params]} call $1_${TM_DIRECTORY/(.*)addons\\\\(.*)\\\\functions(.*)/$2/i}_${TM_FILENAME_BASE}",
+            "    (end)",
+            "",
+            "Author:",
+            "    ${9:You}",
+            "---------------------------------------------------------------------------- */",
+            "",
+            "params [];",
+            "TRACE_1(\"${TM_FILENAME_BASE}\",_this);",
+            "",
+            "$0"
+        ],
+        "prefix": "cba_header",
+        "description": "CBA's function header"
+    },
+    "CBA Settings Event Handler": {
+        "body": [
+            "[\"CBA_settingsInitialized\", {",
+            "    $0",
+            "}] call CBA_fnc_addEventHandler;"
+        ],
+        "prefix": "cba_settings_eh",
+        "description": "Event Handler for CBA settings initializing"
+    },
+    "CBA Per Frame Handler": {
+        "body": [
+            "[{",
+            "    params [\"_args\", \"_handle\"];",
+            "    $0",
+            "}, ${1:Delay between runs in seconds, 0 = every frame}, ${2:Arguments (optional)}] call CBA_fnc_addPerFrameHandler;"
+        ],
+        "prefix": "cba_pfh",
+        "description": "CBA per frame handler"
+    },
+    "CBA Wait and Execute": {
+        "body": [
+            "[{ $0 }, ${1:Arguments}, ${2:Delay in seconds}] call CBA_fnc_waitAndExecute;"
+        ],
+        "prefix": "cba_waitAndExecute",
+        "description": "CBA waitAndExecute"
+    },
+    "CBA Until Wait and Execute": {
+        "body": [
+            "[{",
+            "    params [${3:Params}];",
+            "    ${1:Condition}",
+            "}, {",
+            "    params [$3];",
+            "    $0",
+            "}, ${2:Arguments}] call CBA_fnc_waitUntilAndExecute;"
+        ],
+        "prefix": "cba_waitUntilAndExecute",
+        "description": "CBA waitUntilAndExecute"
+    },
+    "CBA Until Wait and Execute with a Timeout": {
+        "body": [
+            "[{",
+            "    params [${5:Parameters}];",
+            "    ${1:Condition}",
+            "}, {",
+            "    params [$5];",
+            "    $0",
+            "}, ${3:Arguments}, ${4:Timeout in seconds}, {",
+            "    params [$5];",
+            "    ${2:Timeout code}",
+            "}] call CBA_fnc_waitUntilAndExecute;"
+        ],
+        "prefix": "cba_waitUntilAndExecuteTimeout",
+        "description": "CBA waitUntilAndExecute with a timeout"
+    },
+    "CBA Exec Next Frame": {
+        "body": [
+            "[{ $0 }, {${1:Parameters (optional)}] call CBA_fnc_execNextFrame;"
+        ],
+        "prefix": "cba_execNextFrame",
+        "description": "Execute code on the next frame"
+    },
+    "CBA Event Handler": {
+        "body": [
+            "[QGVAR(${1:Event name}), LINKFUNC($1)] call CBA_fnc_addEventHandler;"
+        ],
+        "prefix": "cba_event_handler",
+        "description": "Add a CBA event handler"
+    },
+    "CBA JIP Event": {
+        "body": [
+            "private _jipID = [QGVAR(${1:Event name}), ${2:Parameters}] call CBA_fnc_globalEventJIP;",
+            "[_jipID, ${3:Object (optional, will remove event if object is deleted)}] call CBA_fnc_removeGlobalEventJIP;"
+        ],
+        "prefix": "cba_globalEventJIP",
+        "description": "Add and remove a global JIP event"
+    },
+    "CBA Progress Bar": {
+        "body": [
+            "[${1:Title}, ${2:Total time}, {",
+            "    params [${7:Params}];",
+            "    ${3:Condition}",
+            "}, {",
+            "    params [$7];",
+            "    ${4:On success}",
+            "}, {",
+            "    params [$7];",
+            "    ${5:On failure}",
+            "}, ${6:Arguments}] call CBA_fnc_progressBar",
+        ],
+        "prefix": "cba_progressBar",
+        "description": "A CBA progress bar"
+    }
+}

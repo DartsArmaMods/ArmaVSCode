@@ -41,6 +41,14 @@
                 "path": "./snippets/sqf.code-snippets"
             },
             {
+                "language": "sqf",
+                "path": "./snippets/sqf_cba.code-snippets"
+            },
+            {
+                "language": "sqf",
+                "path": "./snippets/sqf_ace.code-snippets"
+            },
+            {
                 "language": "arma-config",
                 "path": "./snippets/arma-config.code-snippets"
             },

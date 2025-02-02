@@ -5,6 +5,11 @@ on:
     # "*" = any
     - cron: "0 5 * * *"
 
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
 jobs:
   stale:
     runs-on: ubuntu-latest

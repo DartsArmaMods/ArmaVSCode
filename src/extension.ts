@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import fs from "fs/promises";
 import {ELogLevel} from "./e-log-level";
 import {existsSync} from "fs";
-
+import { extname } from "path";
 /**
  * Logs a message to the debug console
  * @param {String} level Log level, e.g. TRACE, INFO, WARN, ERROR
@@ -146,21 +146,14 @@ function activate(context: vscode.ExtensionContext) {
         let files = await fs.readdir(functionsFolder);
 
         // Only PREP sqf files
-        files = files.filter(function (file) {
-            const extensionArray = file.split(".");
-            const extension = extensionArray[extensionArray.length - 1];
-            return extension.toLowerCase() === "sqf";
+        files = files.filter((file) => extname(file.toLowerCase()) === "sqf");
+
+        files.map(file => {
+            let functionName = extname(file); // Remove extension
+            functionName = (functionName.split("_").splice(1)).join("_"); // Remove fn_ / fnc_ prefix
+            return `PREP(${functionName});`;
         });
 
-        // Convert fnc_function_name.sqf -> PREP(function_name);
-        files.forEach((file, index) => {
-            let functionName = file.split(".")[0]; // Remove extension
-            functionName = (functionName.split("_").splice(1)).join("_"); // Remove fn_ / fnc_ prefix
-            files[index] = `PREP(${functionName});`;
-        }, files);
-
-        // Filter out files that didn't match
-        files = files.filter(file => file !== "PREP(undefined);");
         const content = files.join("\n");
 
         logMessage(ELogLevel.TRACE, `content=${content}`);

@@ -1,9 +1,9 @@
 name: "Close stale issues and PRs"
 on:
   schedule:
-    # Format: minute hour day_of_month month day_of_week
+    # Format: minute hour day_of_month month day_of_week, everything is UTC
     # "*" = any
-    - cron: "58 10 * * *"
+    - cron: "0 5 * * *"
 
 jobs:
   stale:

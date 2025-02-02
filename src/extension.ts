@@ -93,6 +93,12 @@ function getProjectPrefix(): string[] {
     return returnValue;
 }
 
+/*
+ * Command function usage
+ * Use registerTextEditorCommand if the command only uses the active editor / file.
+ * If the command uses a different editor or file, use registerCommand with the editor argument.
+ */
+
 /**
  * @param {vscode.ExtensionContext} context
  */

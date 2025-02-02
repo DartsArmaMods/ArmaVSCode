@@ -54,7 +54,7 @@
             },
             {
                 "language": "cpp",
-                "path": "./snippets/cpp.code-snippets"
+                "path": "./snippets/arma-config.code-snippets"
             }
         ],
         "menus": {

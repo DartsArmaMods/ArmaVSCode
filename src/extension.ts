@@ -1,4 +1,4 @@
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
 import fs from "fs";
 
 function isUndefined(value: any): boolean {

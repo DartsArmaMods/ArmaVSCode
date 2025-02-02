@@ -4,6 +4,7 @@ on:
     # Format: minute hour day_of_month month day_of_week, everything is UTC
     # "*" = any
     - cron: "50 17 * * *"
+  workflow_dispatch:
 
 permissions:
   contents: write

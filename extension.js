@@ -106,6 +106,7 @@ function activate(context) {
         const macroStart = new vscode.Position(position.line, newCharacter);
 
         selectedWord = document.getText(document.getWordRangeAtPosition(macroStart));
+        logMessage("TRACE", `selectedWord=${selectedWord}, ${selectedWord.endsWith("STRING")}`);
         vscode.commands.executeCommand("setContext", "LazyArmaDev.selectedStringtableMacro", selectedWord.endsWith("STRING")); // CSTRING, LSTRING, LLSTRING, etc.
     });
 

@@ -2,10 +2,7 @@
 
 import fnmatch
 import os
-import re
-import ntpath
 import sys
-import argparse
 
 def check_style(filepath):
     bad_count_file = 0
@@ -15,12 +12,16 @@ def check_style(filepath):
 
         lineNumber = 1
         indexOfCharacter = 0
+        fileLength = len(content)
 
         for c in content:
             if (c == "\n"):
+                if (indexOfCharacter == fileLength - 1):
+                    print(f"ERROR: Trailing newline at {filepath} Line number: {lineNumber}")
+                    bad_count_file += 1
                 lineNumber += 1
             elif (c == "\t"):
-                print("ERROR: Tab detected at {0} Line number: {1}".format(filepath,lineNumber))
+                print(f"ERROR: Tab detected at {filepath} Line number: {lineNumber}")
                 bad_count_file += 1
 
             indexOfCharacter += 1
@@ -35,7 +36,7 @@ def main():
     file_list = []
     bad_count = 0
 
-    for folder in ["snippets", "test"]:
+    for folder in ["snippets", "src"]:
         for root, _, filenames in os.walk(folder):
             for filename in fnmatch.filter(filenames, "*"):
                 file_list.append(os.path.join(root, filename))

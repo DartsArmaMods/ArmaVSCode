@@ -15,3 +15,9 @@
 
 ## [Release 1.0.4]
 Read on [GitHub](https://github.com/DartsArmaMods/LazyArmaDev/releases/tag/v1.0.4)
+
+## [Release 1.0.5]
+Read on [GitHub](https://github.com/DartsArmaMods/LazyArmaDev/releases/tag/v1.0.5)
+
+## [Release 1.0.6]
+Read on [GitHub](https://github.com/DartsArmaMods/LazyArmaDev/releases/tag/v1.0.6)

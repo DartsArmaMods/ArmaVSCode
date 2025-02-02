@@ -170,9 +170,9 @@ function activate(context: vscode.ExtensionContext) {
         const prepFileDir = functionsFolderArray.join("\\") + "\\XEH_PREP.hpp";
         try {
             await fs.writeFile(prepFileDir, content);
-            vscode.window.showInformationMessage(`Generated XEH_PREP.hpp file for ${files.length} functions`);
+            await vscode.window.showInformationMessage(`Generated XEH_PREP.hpp file for ${files.length} functions`);
         } catch (err) {
-            vscode.window.showErrorMessage(`Failed to create file at ${prepFileDir}`);
+            await vscode.window.showErrorMessage(`Failed to create file at ${prepFileDir}`);
         }
     });
     context.subscriptions.push(generatePrepFile);

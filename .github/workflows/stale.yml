@@ -3,7 +3,7 @@ on:
   schedule:
     # Format: minute hour day_of_month month day_of_week, everything is UTC
     # "*" = any
-    - cron: "0 5 * * *"
+    - cron: "30 5 * * *"
 
 permissions:
   contents: write

@@ -2,10 +2,7 @@
 
 import fnmatch
 import os
-import re
-import ntpath
 import sys
-import argparse
 
 def check_style(filepath):
     bad_count_file = 0

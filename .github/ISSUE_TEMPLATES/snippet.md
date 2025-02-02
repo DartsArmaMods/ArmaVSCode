@@ -1,7 +1,7 @@
 ---
 name: Snippet suggestion
 about: Suggest a snippet
-title: ''
+title: ""
 labels: status/invalid
 ---
 

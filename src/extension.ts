@@ -183,7 +183,7 @@ function activate(context: vscode.ExtensionContext) {
 
         const projectPrefix = await getProjectPrefix();
         let stringKey = document!.getText(document!.getWordRangeAtPosition(textEditor!.selection.active));
-        stringKey = `STR_${projectPrefix.mainPrefix}_${projectPrefix.component}_${stringKey}`;
+        stringKey = `STR_${projectPrefix.prefix}_${projectPrefix.component}_${stringKey}`;
         logMessage(ELogLevel.TRACE, `stringKey="${stringKey}"`);
 
         // File doesn't exist, so create a "blank" stringtable
